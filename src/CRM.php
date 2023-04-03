@@ -23,8 +23,8 @@ class CRM {
             self::$instance = unserialize( $_SESSION['crm'] );
         }else{
             self::$instance = new self();
-            self::set('login_field_name',(Uuid::uuid4())->toString());
-            self::set('password_field_name',(Uuid::uuid4())->toString());
+            self::$instance->set('login_field_name',(Uuid::uuid4())->toString());
+            self::$instance->set('password_field_name',(Uuid::uuid4())->toString());
         }
       }
       return self::$instance;
