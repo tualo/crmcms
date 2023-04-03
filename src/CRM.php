@@ -39,8 +39,8 @@ class CRM {
             $this->set('login_field_name',(Uuid::uuid4())->toString());
             $this->set('password_field_name',(Uuid::uuid4())->toString());
         }else{
-            $this->set('login','cms_login');
-            $this->set('password','cms_password');
+            $this->set('login_field_name','cms_login');
+            $this->set('password_field_name','cms_password');
         }
         
     }
