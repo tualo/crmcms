@@ -101,10 +101,11 @@ BEGIN
         RETURN json_object(
             'success', 1=1,
             'login', in_username,
-            'login_type', 'employee'
+            'login_type', 'translator'
         );
     END IF;
 
     RETURN json_object( 'success', 1=0);
 
 END //
+
