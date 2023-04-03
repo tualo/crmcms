@@ -8,7 +8,7 @@ use Ramsey\Uuid\Uuid;
 use Tualo\Office\CrmCms\CRM;
 
 class Account {
-    private $isLoggedin=false;
+    private $_isLoggedin=false;
 
     private static ?Account $instance = null;
     public static function getInstance()
@@ -30,7 +30,7 @@ class Account {
         if ( 
             is_null($username) &&
             is_null($password) &&
-            ( $this->isLoggedin==false ) &&
+            ( $this->_isLoggedin==false ) &&
             isset( $_REQUEST[ $ur_fld ] ) &&
             isset( $_REQUEST[ $pw_fld ] )
         ){
@@ -44,7 +44,7 @@ class Account {
             ($res = json_decode($this->db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$username,'cms_password'=>$password],'s'),true))
         ){
             if ($res['success']==true){
-                $this->isLoggedin=true;
+                $this->_isLoggedin=true;
                 $this->set('login',$res['login']);
                 $this->set('login_type',$res['login_type']);
             }
@@ -52,7 +52,10 @@ class Account {
 
         $crm = CRM::getInstance();
         $crm->refreshLoginFieldNames();
-        return $this->isLoggedin;
+        return $this->_isLoggedin;
+    }
+    public function isLoggedin(){
+        return $this->_isLoggedin;
     }
 
     
