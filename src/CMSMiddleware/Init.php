@@ -12,9 +12,9 @@ class Init {
         $db = self::db();
         $crm = CRM::getInstance();
         $account = $crm->get('account');
-        
+
         if (is_null($account)) $crm->set('account',Account::getInstance());
-        $account->login();
+        $crm->get('login')->login();
 
         $_SESSION['crm'] = serialize($crm);
         $result['crm'] = $crm;
