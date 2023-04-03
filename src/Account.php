@@ -20,6 +20,20 @@ class Account {
     }
 
     public function db() { return App::get('session')->getDB(); }
+
+    public function logout(){
+        try{
+            if (isset($_REQUEST['logout'])&&($_REQUEST['logout']==1)){
+                self::$instance = new self();
+                session_commit();
+                header('Location: ./');
+            }
+        }catch(\Exception $e){
+            
+        }
+    }
+
+ 
     public function login(
         string $username = null,
         string $password = null
