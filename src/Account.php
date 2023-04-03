@@ -30,7 +30,7 @@ class Account {
         if ( 
             is_null($username) &&
             is_null($password) &&
-            ( self::$isLoggedin==false ) &&
+            ( $this->isLoggedin==false ) &&
             isset( $_REQUEST[ $ur_fld ] ) &&
             isset( $_REQUEST[ $pw_fld ] )
         ){
@@ -41,7 +41,7 @@ class Account {
         if ( 
             !is_null($username) &&
             !is_null($password) &&
-            ($res = json(self::db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$username,'crm_password'=>$password],'s'),true))
+            ($res = json($this->db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$username,'crm_password'=>$password],'s'),true))
         ){
             if ($res['success']==true){
                 $this->isLoggedin=true;
@@ -54,15 +54,15 @@ class Account {
         $crm->set('login_field_name',(Uuid::uuid4())->toString());
         $crm->set('password_field_name',(Uuid::uuid4())->toString());
         
-        return self::$isLoggedin;
+        return $this->isLoggedin;
     }
 
     public static array $_data=[];
     public function set(string $key, mixed $data):void{
-        self::$_data[$key]=$data;
+        $this->_data[$key]=$data;
     }
     public function get(string $key):mixed{
-        if (!isset(self::$_data[$key])) return null;
-        return self::$_data[$key];
+        if (!isset($this->_data[$key])) return null;
+        return $this->_data[$key];
     }
 }

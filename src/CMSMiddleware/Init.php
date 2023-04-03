@@ -14,7 +14,7 @@ class Init {
         $account = $crm->get('account');
 
         if (is_null($account)) $crm->set('account',Account::getInstance());
-        $crm->get('login')->login();
+        $crm->get('account')->login();
 
         $_SESSION['crm'] = serialize($crm);
         $result['crm'] = $crm;
