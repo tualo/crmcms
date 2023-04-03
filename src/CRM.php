@@ -36,11 +36,11 @@ class CRM {
             isset( (App::get('configuration'))['crmcms'] ) &&
             (App::get('configuration'))['crmcms'] == '1'
         ){
-            $this->set('login','cms_login');
-            $this->set('password','cms_password');
-        }else{
             $this->set('login_field_name',(Uuid::uuid4())->toString());
             $this->set('password_field_name',(Uuid::uuid4())->toString());
+        }else{
+            $this->set('login','cms_login');
+            $this->set('password','cms_password');
         }
         
     }
