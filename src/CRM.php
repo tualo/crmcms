@@ -37,4 +37,12 @@ class CRM {
         if (!isset($this->_data[$key])) return null;
         return $this->_data[$key];
     }
+
+    public function __set(string $key, mixed $data):void{
+        $this->_data[$key]=$data;
+    }
+    public function __get(string $key):mixed{
+        if (!isset($this->_data[$key])) return null;
+        return $this->_data[$key];
+    }
 }
