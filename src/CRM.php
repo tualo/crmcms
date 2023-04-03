@@ -23,13 +23,28 @@ class CRM {
             self::$instance = unserialize( $_SESSION['crm'] );
         }else{
             self::$instance = new self();
-            self::$instance->set('login_field_name',(Uuid::uuid4())->toString());
-            self::$instance->set('password_field_name',(Uuid::uuid4())->toString());
+            self::$instance->refreshLoginFieldNames();
         }
       }
       return self::$instance;
     }
     public array $_data=[];
+
+    public function refreshLoginFieldNames():void{
+        if (
+            isset( (App::get('configuration'))['crmcms'] ) && 
+            isset( (App::get('configuration'))['crmcms'] ) &&
+            (App::get('configuration'))['crmcms'] == '1'
+        ){
+            $this->set('login','cms_login');
+            $this->set('password','cms_password');
+        }else{
+            $this->set('login_field_name',(Uuid::uuid4())->toString());
+            $this->set('password_field_name',(Uuid::uuid4())->toString());
+        }
+        
+    }
+
     public function set(string $key, mixed $data):void{
         $this->_data[$key]=$data;
     }
@@ -38,11 +53,4 @@ class CRM {
         return $this->_data[$key];
     }
 
-    public function __set(string $key, mixed $data):void{
-        $this->_data[$key]=$data;
-    }
-    public function __get(string $key):mixed{
-        if (!isset($this->_data[$key])) return null;
-        return $this->_data[$key];
-    }
 }

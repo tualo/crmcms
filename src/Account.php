@@ -41,7 +41,7 @@ class Account {
         if ( 
             !is_null($username) &&
             !is_null($password) &&
-            ($res = json($this->db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$username,'crm_password'=>$password],'s'),true))
+            ($res = json_decode($this->db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$username,'crm_password'=>$password],'s'),true))
         ){
             if ($res['success']==true){
                 $this->isLoggedin=true;
@@ -51,11 +51,11 @@ class Account {
         }
 
         $crm = CRM::getInstance();
-        $crm->set('login_field_name',(Uuid::uuid4())->toString());
-        $crm->set('password_field_name',(Uuid::uuid4())->toString());
-        
+        $crm->refreshLoginFieldNames();
         return $this->isLoggedin;
     }
+
+    
 
     public static array $_data=[];
     public function set(string $key, mixed $data):void{
