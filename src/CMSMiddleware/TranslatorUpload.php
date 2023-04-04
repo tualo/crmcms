@@ -40,7 +40,7 @@ class TranslatorUpload {
                 DSFileHelper::uploadFileToDB('userfile','translations',[
                     'fieldName'=>'translations__document',
                     'translations__id'=>$hash['translation']
-                ])
+                ]);
             }
         }
 
