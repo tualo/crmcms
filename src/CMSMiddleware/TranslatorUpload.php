@@ -10,7 +10,9 @@ class TranslatorUpload {
     
     public static function db() { return App::get('session')->getDB(); }
     public static function run(&$request,&$result){
-        if (isset($_FILES['userfile'])){
+        if (
+            isset($_FILES['userfile'])
+        ){
             @session_start();
             $db = self::db();
             $crm = CRM::getInstance();
@@ -22,15 +24,18 @@ class TranslatorUpload {
            
             }
             if (
+                isset($_REQUEST['source_language']) &&
+                isset($_REQUEST['destination_lang']) &&
                 $crm->get('account')->isLoggedIn() &&
                 $crm->get('account')->get('login_type')=='customer'
             ) {
+                // finished-date
 
                 $hash = $db->singleRow('select concat("TRNS",substring(replace(replace(replace(now()," ",""),"-",""),":",""),1,12)) project, uuid() translation',[],'');
                 $db->direct('insert into projects (id,created) values ({project},now())',$hash);
                 $hash+=[
-                    'source_language'       =>  'deutsch',
-                    'destination_language'  =>  'slowakisch',
+                    'source_language'       =>  $_REQUEST['source_language'],
+                    'destination_language'  =>  $_REQUEST['destination_lang'],
                     'kundennummer'          =>  $crm->get('account')->get('kundennummer'),
                     'kostenstelle'          =>  $crm->get('account')->get('kostenstelle')
                 ];
