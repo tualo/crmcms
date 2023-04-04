@@ -24,9 +24,8 @@ class Account {
     public function logout(){
         try{
             if (isset($_REQUEST['logout'])&&($_REQUEST['logout']==1)){
-                self::$instance = new self();
-                session_commit();
-                header('Location: ./');
+                $this->_isLoggedin=false;
+                $this->_data=[];
             }
         }catch(\Exception $e){
             

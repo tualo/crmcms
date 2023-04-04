@@ -83,6 +83,7 @@ BEGIN
     IF val=1 THEN 
         RETURN json_object(
             'success', 1=1,
+            'login', in_username,
             'login_type', 'customer'
         );
     END IF;
