@@ -11,7 +11,8 @@ class TranslatorDownload {
     public static function db() { return App::get('session')->getDB(); }
     public static function run(&$request,&$result){
         if (
-            isset($_REQUEST['translation_original_download'])
+            isset($_REQUEST['translation_original_download']) ||
+            isset($_REQUEST['translation_result_download'])
         ){
             @session_start();
             $db = self::db();
@@ -19,25 +20,22 @@ class TranslatorDownload {
             if (
                 !is_null($crm->get('account')) &&
                 $crm->get('account')->isLoggedIn() &&
-                $crm->get('account')->get('login_type')=='translator'
+                (
+                    ($crm->get('account')->get('login_type')=='translator') ||
+                    ($crm->get('account')->get('login_type')=='customer')
+                )
             ) {
-           
-            }
-            if (
-                !is_null($crm->get('account')) &&
-                $crm->get('account')->isLoggedIn() &&
-                $crm->get('account')->get('login_type')=='customer'
-            ) {
-                // finished-date
                 $sql = '
                 select 
-                    document
+                    document,
+                    result
                 from 
                     translations
-                    join translations_kunden
-                        on translations_kunden.translation = translations.id
-                        and (translations.id,translations_kunden.kundennummer,translations_kunden.kostenstelle) = ({translation},{kundennummer},{kostenstelle})
+                    join translations_$tbl$ bez
+                        on bez.translation = translations.id
+                        and (translations.id,bez.kundennummer,bez.kostenstelle) = ({translation},{kundennummer},{kostenstelle})
                 ';
+                $sql = str_replace('$tbl$',($crm->get('account')->get('login_type')=='translator')?'uebersetzer':'adressen', $sql);
                 $hash=[
                     'translation'           =>  preg_replace("/[^0-9a-z\-]/","",$_REQUEST['translation_original_download']),
                     'kundennummer'          =>  $crm->get('account')->get('kundennummer'),
