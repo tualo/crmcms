@@ -11,6 +11,9 @@ class Translator {
         @session_start();
         $db = self::db();
         $crm = CRM::getInstance();
+
+        $result['translations_languages']=$db->direct('select * from languages'); // don't stor in session;
+
         if (
             $crm->get('account')->isLoggedIn() &&
             $crm->get('account')->get('login_type')=='translator'
