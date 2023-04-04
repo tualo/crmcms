@@ -37,9 +37,14 @@ class TranslatorDownload {
                     translations
                     join translations_kunden
                         on translations_kunden.translation = translations.id
-                        and (translations.translation,translations_kunden.kundennummer,translations_kunden.kostenstelle) = ({translation},{kundennummer},{kostenstelle})
+                        and (translations.id,translations_kunden.kundennummer,translations_kunden.kostenstelle) = ({translation},{kundennummer},{kostenstelle})
                 ';
-                $document = $db->singleValue($sql,[],'document');
+                $hash=[
+                    'translation'           =>  preg_replace("/[^0-9a-z\-]/","",$_REQUEST['translations_download']),
+                    'kundennummer'          =>  $crm->get('account')->get('kundennummer'),
+                    'kostenstelle'          =>  $crm->get('account')->get('kostenstelle')
+                ];
+                $document = $db->singleValue($sql,$hash,'document');
                 if ($document!==false){
                     $res = DSFileHelper::getFile($db,'translations',$document,true);
                     if($res['success']===true){
