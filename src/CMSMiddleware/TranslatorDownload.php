@@ -11,7 +11,7 @@ class TranslatorDownload {
     public static function db() { return App::get('session')->getDB(); }
     public static function run(&$request,&$result){
         if (
-            isset($_REQUEST['translations_download'])
+            isset($_REQUEST['translation_original_download'])
         ){
             @session_start();
             $db = self::db();
@@ -29,7 +29,6 @@ class TranslatorDownload {
                 $crm->get('account')->get('login_type')=='customer'
             ) {
                 // finished-date
-
                 $sql = '
                 select 
                     document
@@ -40,7 +39,7 @@ class TranslatorDownload {
                         and (translations.id,translations_kunden.kundennummer,translations_kunden.kostenstelle) = ({translation},{kundennummer},{kostenstelle})
                 ';
                 $hash=[
-                    'translation'           =>  preg_replace("/[^0-9a-z\-]/","",$_REQUEST['translations_download']),
+                    'translation'           =>  preg_replace("/[^0-9a-z\-]/","",$_REQUEST['translation_original_download']),
                     'kundennummer'          =>  $crm->get('account')->get('kundennummer'),
                     'kostenstelle'          =>  $crm->get('account')->get('kostenstelle')
                 ];
