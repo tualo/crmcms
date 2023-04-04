@@ -24,7 +24,7 @@ class TranslatorUpload {
            
             }
             if (
-                isset($_REQUEST['source_language']) &&
+                isset($_REQUEST['source_lang']) &&
                 isset($_REQUEST['destination_lang']) &&
                 $crm->get('account')->isLoggedIn() &&
                 $crm->get('account')->get('login_type')=='customer'
@@ -34,7 +34,7 @@ class TranslatorUpload {
                 $hash = $db->singleRow('select concat("TRNS",substring(replace(replace(replace(now()," ",""),"-",""),":",""),1,12)) project, uuid() translation',[],'');
                 $db->direct('insert into projects (id,created) values ({project},now())',$hash);
                 $hash+=[
-                    'source_language'       =>  $_REQUEST['source_language'],
+                    'source_language'       =>  $_REQUEST['source_lang'],
                     'destination_language'  =>  $_REQUEST['destination_lang'],
                     'kundennummer'          =>  $crm->get('account')->get('kundennummer'),
                     'kostenstelle'          =>  $crm->get('account')->get('kostenstelle')
@@ -46,6 +46,8 @@ class TranslatorUpload {
                     'fieldName'=>'translations__document',
                     'translations__id'=>$hash['translation']
                 ]);
+
+                $crm->set('type','upload_success');
             }
         }
 
