@@ -7,7 +7,7 @@ use Michelf\MarkdownExtra;
 use Tualo\Office\DS\DSFileHelper;
 use Ramsey\Uuid\Uuid;
 class TranslatorUpload {
-    public static function pages($file){
+    public static function pages($file):mixed{
         $params = ['gs'];
         $params[] =  '-q';
         $params[] =  '-dNOPAUSE';
@@ -16,7 +16,8 @@ class TranslatorUpload {
         $params[] =  '-c';
         $params[] =  "\"($file) (r) file runpdfbegin pdfpagecount = quit\"";
         exec( implode(' ',$params),$gsresult);
-        print_r($gsresult);
+        if (count( $gsresult ) == 1) return intval($gsresult[0]);
+        return false;
     }
 
     public static function db() { return App::get('session')->getDB(); }
@@ -57,10 +58,11 @@ class TranslatorUpload {
                     'fieldName'=>'translations__document',
                     'translations__id'=>$hash['translation']
                 ],$local_file_name );
-                self::pages($local_file_name);
-                if (file_exists($local_file_name)){
-                    unlink($local_file_name);
+                if($count = self::pages($local_file_name)){
+                    $hash['count']=$count;
+                    $db->direct('update translations set source_pages = {count} where translation={translation}',$hash);
                 }
+                if (file_exists($local_file_name)){ unlink($local_file_name); }
                 $crm->set('type','upload_success');
             }
         }

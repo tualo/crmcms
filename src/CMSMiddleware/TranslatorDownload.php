@@ -35,13 +35,19 @@ class TranslatorDownload {
                         on bez.translation = translations.id
                         and (translations.id,bez.kundennummer,bez.kostenstelle) = ({translation},{kundennummer},{kostenstelle})
                 ';
-                $sql = str_replace('$tbl$',($crm->get('account')->get('login_type')=='translator')?'uebersetzer':'adressen', $sql);
+                $sql = str_replace('$tbl$',($crm->get('account')->get('login_type')=='translator')?'uebersetzer':'kunden', $sql);
                 $hash=[
                     'translation'           =>  preg_replace("/[^0-9a-z\-]/","",$_REQUEST['translation_original_download']),
                     'kundennummer'          =>  $crm->get('account')->get('kundennummer'),
                     'kostenstelle'          =>  $crm->get('account')->get('kostenstelle')
                 ];
-                $document = $db->singleValue($sql,$hash,'document');
+                $document = -1;
+                if (isset($_REQUEST['translation_original_download'])){
+                    $document = $db->singleValue($sql,$hash,'document');
+                }
+                if (isset($_REQUEST['translation_result_download'])){
+                    $document = $db->singleValue($sql,$hash,'document');
+                }
                 if ($document!==false){
                     $res = DSFileHelper::getFile($db,'translations',$document,true);
                     if($res['success']===true){
