@@ -83,7 +83,7 @@ class TranslatorUpload {
 
                 if (file_exists($local_file_name)){ unlink($local_file_name); }
                 $crm->set('type','upload_success');
-                App::executeDefferedRoute('/wordcounttest');
+                App::executeDefferedRoute('/wordcounttest','now');
             }
         }
 
