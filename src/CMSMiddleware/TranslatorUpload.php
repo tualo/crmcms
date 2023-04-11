@@ -15,10 +15,22 @@ class TranslatorUpload {
         $params[] =  '-dNODISPLAY';
         $params[] =  '-c';
         $params[] =  "\"($file) (r) file runpdfbegin pdfpagecount = quit\"";
-        exec( implode(' ',$params),$gsresult);
-        if (count( $gsresult ) == 1) return intval($gsresult[0]);
+        exec( implode(' ',$params),$gsresult,$code);
+        if (($code==0) && (count( $gsresult ) == 1)) return intval($gsresult[0]);
         return false;
     }
+
+    public static function words($file):mixed{
+        exec('pdftotext '.$file , $nix, $state);
+        $params = ['wc'];
+        $params[] =  '-w';
+        $params[] =  " \"$file.txt\" | awk '{print $1}'";
+        exec( implode(' ',$params),$wcresult,$code);
+        if (($code==0) && (count( $wcresult ) == 1)) return intval($wcresult[0]);
+        return false;
+    }
+
+
 
     public static function db() { return App::get('session')->getDB(); }
     public static function run(&$request,&$result){
@@ -58,10 +70,17 @@ class TranslatorUpload {
                     'fieldName'=>'translations__document',
                     'translations__id'=>$hash['translation']
                 ],$local_file_name );
+
+                if($count = self::words($local_file_name)){
+                    $hash['count']=$count;
+                    $db->direct('update translations set source_words = {count} where id={translation}',$hash);
+                }
+
                 if($count = self::pages($local_file_name)){
                     $hash['count']=$count;
-                    $db->direct('update translations set source_pages = {count} where translation={translation}',$hash);
+                    $db->direct('update translations set source_pages = {count} where id={translation}',$hash);
                 }
+                
                 if (file_exists($local_file_name)){ unlink($local_file_name); }
                 $crm->set('type','upload_success');
             }
