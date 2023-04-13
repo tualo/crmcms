@@ -91,8 +91,7 @@ class Account {
         */
         $crm = CRM::getInstance();
 
-        $crm->set('request_offer','');
-        $crm->set('request_offer_login','');
+        
         if( ($this->_isLoggedin===false) &&
             (isset($_REQUEST['offerid']))
         ){
