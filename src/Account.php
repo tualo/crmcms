@@ -64,6 +64,7 @@ class Account {
         }
 
 
+        /*
         if( ($this->_isLoggedin===false) &&
             (isset($_REQUEST['offerid'])) && 
             ($res = $this->db()->singleRow(
@@ -87,9 +88,12 @@ class Account {
             $this->set('login_type','translator');
             
         }
+        */
+        $crm = CRM::getInstance();
 
-        $this->set('request_offer','');
-        if( ($this->_isLoggedin===true) &&
+        $crm->set('request_offer','');
+        $crm->set('request_offer_login','');
+        if( ($this->_isLoggedin===false) &&
             (isset($_REQUEST['offerid']))
         ){
 
@@ -111,11 +115,20 @@ class Account {
                 ]);
 
                 if ($res!=false){
-                    $this->set('request_offer',$res['translation']);
+                    $crm->set('request_offer',$res['translation']);
+                    $crm->set('request_offer_login',$res['login']);
                 }
 
         }
-        $crm = CRM::getInstance();
+
+        if( ($this->_isLoggedin===true) &&
+            ($crm->get('request_offer_login')==$this->get('login'))
+        ){
+            $this->set('request_offer',$crm->get('request_offer'));
+            $crm->set('request_offer','');
+            $crm->set('request_offer_login','');
+        }
+
         $crm->refreshLoginFieldNames();
         return $this->_isLoggedin;
     }
