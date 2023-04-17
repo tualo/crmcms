@@ -63,7 +63,71 @@ class Account {
             }
         }
 
+
+        /*
+        if( ($this->_isLoggedin===false) &&
+            (isset($_REQUEST['offerid'])) && 
+            ($res = $this->db()->singleRow(
+                'select uebersetzer_logins.* from uebersetzer
+                join translations_uebersetzer on 
+                    (translations_uebersetzer.kundennummer,translations_uebersetzer.kostenstelle)
+                    = 
+                    (uebersetzer.kundennummer,uebersetzer.kostenstelle)
+                    and offer_mail_id = {offerid}
+                join uebersetzer_logins on 
+                    (uebersetzer.kundennummer,uebersetzer.kostenstelle)
+                    = (uebersetzer_logins.kundennummer,uebersetzer_logins.kostenstelle)
+                    
+                '
+                ,$_REQUEST))
+             
+
+        ){
+            $this->_isLoggedin=true;
+            $this->set('login',$res['login']);
+            $this->set('login_type','translator');
+            
+        }
+        */
         $crm = CRM::getInstance();
+
+        
+        if( ($this->_isLoggedin===false) &&
+            (isset($_REQUEST['offerid']))
+        ){
+
+            $res = $this->db()->singleRow(
+                'select translations_uebersetzer.translation,uebersetzer_logins.login from uebersetzer
+                join translations_uebersetzer on 
+                    (translations_uebersetzer.kundennummer,translations_uebersetzer.kostenstelle)
+                    = 
+                    (uebersetzer.kundennummer,uebersetzer.kostenstelle)
+                    and offer_mail_id = {offerid}
+                join uebersetzer_logins on 
+                    (uebersetzer.kundennummer,uebersetzer.kostenstelle)
+                    = (uebersetzer_logins.kundennummer,uebersetzer_logins.kostenstelle)
+                    
+                '
+                ,[
+                    'login'=>$this->get('login'),
+                    'offerid'=>$_REQUEST['offerid']
+                ]);
+
+                if ($res!=false){
+                    $crm->set('request_offer',$res['translation']);
+                    $crm->set('request_offer_login',$res['login']);
+                }
+
+        }
+
+        if( ($this->_isLoggedin===true) &&
+            ($crm->get('request_offer_login')==$this->get('login'))
+        ){
+            $this->set('request_offer',$crm->get('request_offer'));
+            $crm->set('request_offer','');
+            $crm->set('request_offer_login','');
+        }
+
         $crm->refreshLoginFieldNames();
         return $this->_isLoggedin;
     }
