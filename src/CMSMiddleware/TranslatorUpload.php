@@ -56,6 +56,9 @@ class TranslatorUpload {
 
                 $hash = $db->singleRow('select concat("TRNS",substring(replace(replace(replace(now()," ",""),"-",""),":",""),1,12)) project, uuid() translation',[],'');
                 $db->direct('insert into projects (id,created) values ({project},now())',$hash);
+                /*
+                 * alter table translations add attributes json default NULL;
+                 */
                 $jsSTR=NULL;
                 if (isset($_REQUEST['attributes']) && is_array($_REQUEST['attributes']) ){
                     $jsSTR='{';
