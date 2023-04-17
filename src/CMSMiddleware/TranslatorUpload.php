@@ -67,7 +67,7 @@ class TranslatorUpload {
                     }
                     $jsSTR=substr($jsSTR,0,-1).'}';
                 }
-                $db->direct('insert into projects (id,created) values ({project},now())',$hash);
+
                 $hash+=[
                     'source_language'       =>  $_REQUEST['source_lang'],
                     'destination_language'  =>  $_REQUEST['destination_lang'],
