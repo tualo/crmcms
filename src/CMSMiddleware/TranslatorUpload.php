@@ -61,11 +61,11 @@ class TranslatorUpload {
                  */
                 $jsSTR=NULL;
                 if (isset($_REQUEST['attributes']) && is_array($_REQUEST['attributes']) ){
-                    $jsSTR='{';
+                    $jsSTR='{"attributes":[';
                     foreach ($_REQUEST['attributes'] as $attrib => $nix){
-                        $jsSTR.='"atributes":"'.$attrib.'",';
+                        $jsSTR.='"'.$attrib.'",';
                     }
-                    $jsSTR=substr($jsSTR,0,-1).'}';
+                    $jsSTR=substr($jsSTR,0,-1).']}';
                 }
 
                 $hash+=[
