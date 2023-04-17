@@ -56,15 +56,25 @@ class TranslatorUpload {
 
                 $hash = $db->singleRow('select concat("TRNS",substring(replace(replace(replace(now()," ",""),"-",""),":",""),1,12)) project, uuid() translation',[],'');
                 $db->direct('insert into projects (id,created) values ({project},now())',$hash);
+                $jsSTR=NULL;
+                if (isset($_REQUEST['attributes']) && is_array($_REQUEST['attributes']) ){
+                    $jsSTR='{';
+                    foreach ($_REQUEST['attributes'] as $attrib => $nix){
+                        $jsSTR.='"atributes":"'.$attrib.'",';
+                    }
+                    $jsSTR=substr($jsSTR,0,-1).'}';
+                }
+                $db->direct('insert into projects (id,created) values ({project},now())',$hash);
                 $hash+=[
                     'source_language'       =>  $_REQUEST['source_lang'],
                     'destination_language'  =>  $_REQUEST['destination_lang'],
                     'kundennummer'          =>  $crm->get('account')->get('kundennummer'),
                     'kostenstelle'          =>  $crm->get('account')->get('kostenstelle'),
-                    'desired_date'          =>  $_REQUEST['finished-date']
+                    'desired_date'          =>  $_REQUEST['finished-date'],
+                    'attributes'            =>  $jsSTR
                 ];
                 
-                $db->direct('insert into translations (id,project,source_language,destination_language,created,desired_date) values ({translation},{project},{source_language},{destination_language},now(),{desired_date})',$hash);
+                $db->direct('insert into translations (id,project,source_language,destination_language,created,desired_date,attributes) values ({translation},{project},{source_language},{destination_language},now(),{desired_date},{attributes})',$hash);
                 $db->direct('insert into translations_kunden (translation,kundennummer,kostenstelle) values ({translation},{kundennummer},{kostenstelle} )',$hash);
                 
                 $local_file_name = App::get('tempPath').'/.ht_'.(Uuid::uuid4())->toString();
