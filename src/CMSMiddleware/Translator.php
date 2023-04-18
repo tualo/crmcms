@@ -61,7 +61,7 @@ class Translator {
                             offer_end = {offer_end},
                             guaranteed_final_date = {guaranteed_final_date},
                             message = {message}
-                            where translation={translation}" and kundennummer={kundennummer}';
+                            where translation={translation} and kundennummer={kundennummer}';
                         $db->direct($sql,$hash);
                     }
                 }
