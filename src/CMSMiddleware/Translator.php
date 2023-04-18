@@ -33,6 +33,27 @@ class Translator {
                 ',
                 ['login'=>$crm->get('account')->get('login')]
             ));
+               if (
+                  isset($_REQUEST['to-do-offer-id']) // check for new translator-offer
+                  // alter table translations_uebersetzer add guaranteed_final_date datetime default null
+                  // alter table translations_uebersetzer change offer_days offer_end datetime default null
+                ){
+                    if(
+                        isset($_REQUEST['finished-date']) &&
+                        isset($_REQUEST['gueltig-bis-date']) &&
+                        isset($_REQUEST['offer-amount']) &&
+                        isset($_REQUEST['agb-read']) 
+                    ){
+                        $sql = ' update translations_uebersetzer set 
+                            offer_amount = '.$_REQUEST['offer-amount'].',
+                            offer_date = now(),
+                            offer_end = "'.$_REQUEST['gueltig-bis-date'].'",
+                            guaranteed_final_date = "'.$_REQUEST['finished-date'].'",
+                            where translation="'.$_REQUEST['to-do-offer-id'].'" and kundennummer="'.$crm->get('account')->get('kundennummer').'"';
+                        echo $sql;
+                    }
+                }
+
         }
 
         if (
