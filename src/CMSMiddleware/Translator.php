@@ -71,7 +71,6 @@ class Translator {
                     isset($_REQUEST['tr-nr']) &&
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
                 ) {
-                    print_r($_REQUEST);
                     $hash=[
                         'firma' =>  $_REQUEST['firma'],
                         'zusatz' =>  $_REQUEST['zusatz'],
@@ -84,10 +83,48 @@ class Translator {
                         'ortsteil' =>  $_REQUEST['ortsteil'],
                         'kundennummer'  => $crm->get('account')->get('kundennummer')
                     ];
-                    $sql='update uebersetzer set firma={firma}, zusatz={}, vorname={vorname}, nachname={nachname}, strasse={strasse}, haus_nr={haus_nr}, plz={plz}, ort={ort}, ortsteil={ortsteil}
+                    $sql='update uebersetzer set firma={firma}, zusatz={zusatz}, vorname={vorname}, nachname={nachname}, strasse={strasse}, haus_nr={haus_nr}, plz={plz}, ort={ort}, ortsteil={ortsteil}
                     where kundennummer={kundennummer}';
                     $db->direct($sql,$hash);
                 }
+                if (
+                    isset($_REQUEST['edit-tr-communication']) &&
+                    isset($_REQUEST['tr-nr']) &&
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                ) {
+                    $hash=[
+                        'telefon' =>  $_REQUEST['telefon'],
+                        'telefax' =>  $_REQUEST['telefax'],
+                        'telefon2' =>  $_REQUEST['telefon2'],
+                        'email' =>  $_REQUEST['email'],
+                        'website' =>  $_REQUEST['website'],
+                        'kundennummer'  => $crm->get('account')->get('kundennummer')
+                    ];
+                    $sql='update uebersetzer set telefon={telefon}, telefax={telefax}, telefon2={telefon2}, email={email}, website={website}
+                    where kundennummer={kundennummer}';
+                    $db->direct($sql,$hash);
+                }
+                if (
+                    isset($_REQUEST['edit-tr-accounting']) &&
+                    isset($_REQUEST['tr-nr']) &&
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                ) {
+                    $hash=[
+                        'firma' =>  $_REQUEST['firma'],
+                        'zusatz' =>  $_REQUEST['zusatz'],
+                        'vorname' =>  $_REQUEST['vorname'],
+                        'nachname' =>  $_REQUEST['nachname'],
+                        'strasse' =>  $_REQUEST['strasse'],
+                        'haus_nr' =>  $_REQUEST['haus_nr'],
+                        'plz' =>  $_REQUEST['plz'],
+                        'ort' =>  $_REQUEST['ort'],
+                        'ortsteil' =>  $_REQUEST['ortsteil'],
+                        'kundennummer'  => $crm->get('account')->get('kundennummer')
+                    ];
+                    $sql='update uebersetzer set firma={firma}, zusatz={zusatz}, vorname={vorname}, nachname={nachname}, strasse={strasse}, haus_nr={haus_nr}, plz={plz}, ort={ort}, ortsteil={ortsteil}
+                    where kundennummer={kundennummer}';
+                    $db->direct($sql,$hash);
+                }                                
 
         }
 
