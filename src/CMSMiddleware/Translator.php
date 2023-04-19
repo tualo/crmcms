@@ -109,19 +109,15 @@ class Translator {
                     isset($_REQUEST['tr-nr']) &&
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
                 ) {
+                    $gutschrift=(isset($_REQUEST['gutschrift']) ? 1:0);
+                    $mwst_befreit=(isset($_REQUEST['mwst_befreit']) ? 1:0);
                     $hash=[
-                        'firma' =>  $_REQUEST['firma'],
-                        'zusatz' =>  $_REQUEST['zusatz'],
-                        'vorname' =>  $_REQUEST['vorname'],
-                        'nachname' =>  $_REQUEST['nachname'],
-                        'strasse' =>  $_REQUEST['strasse'],
-                        'haus_nr' =>  $_REQUEST['haus_nr'],
-                        'plz' =>  $_REQUEST['plz'],
-                        'ort' =>  $_REQUEST['ort'],
-                        'ortsteil' =>  $_REQUEST['ortsteil'],
+                        'steuernummer' =>  $_REQUEST['steuernummer'],
+                        'gutschrift' =>  $gutschrift,
+                        'mwst_befreit' =>  $mwst_befreit,
                         'kundennummer'  => $crm->get('account')->get('kundennummer')
                     ];
-                    $sql='update uebersetzer set firma={firma}, zusatz={zusatz}, vorname={vorname}, nachname={nachname}, strasse={strasse}, haus_nr={haus_nr}, plz={plz}, ort={ort}, ortsteil={ortsteil}
+                    $sql='update uebersetzer set steuernummer={steuernummer}, gutschrift={gutschrift}, mwst_befreit={mwst_befreit} 
                     where kundennummer={kundennummer}';
                     $db->direct($sql,$hash);
                 }                                
