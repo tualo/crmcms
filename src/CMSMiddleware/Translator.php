@@ -62,7 +62,7 @@ class Translator {
                             guaranteed_final_date = {guaranteed_final_date},
                             message = {message}
                             where translation={translation} and kundennummer={kundennummer}';
-                        $db->direct($sql,$hash);
+                            $db->direct($sql,$hash);
                     }
                 }
 
@@ -72,7 +72,21 @@ class Translator {
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
                 ) {
                     print_r($_REQUEST);
-                    exit();
+                    $hash=[
+                        'firma' =>  $_REQUEST['firma'],
+                        'zusatz' =>  $_REQUEST['zusatz'],
+                        'vorname' =>  $_REQUEST['vorname'],
+                        'nachname' =>  $_REQUEST['nachname'],
+                        'strasse' =>  $_REQUEST['strasse'],
+                        'haus_nr' =>  $_REQUEST['haus_nr'],
+                        'plz' =>  $_REQUEST['plz'],
+                        'ort' =>  $_REQUEST['ort'],
+                        'ortsteil' =>  $_REQUEST['ortsteil'],
+                        'kundennummer'  => $crm->get('account')->get('kundennummer')
+                    ];
+                    $sql='update uebersetzer set firma={firma}, zusatz={}, vorname={vorname}, nachname={nachname}, strasse={strasse}, haus_nr={haus_nr}, plz={plz}, ort={ort}, ortsteil={ortsteil}
+                    where kundennummer={kundennummer}';
+                    $db->direct($sql,$hash);
                 }
 
         }
