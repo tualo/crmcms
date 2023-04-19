@@ -66,6 +66,15 @@ class Translator {
                     }
                 }
 
+                if (
+                    isset($_REQUEST['edit-tr-address']) &&
+                    isset($_REQUEST['tr-nr']) &&
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                ) {
+                    print_r($_REQUEST);
+                    exit();
+                }
+
         }
 
         if (
