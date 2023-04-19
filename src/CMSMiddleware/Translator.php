@@ -115,9 +115,11 @@ class Translator {
                         'steuernummer' =>  $_REQUEST['steuernummer'],
                         'gutschrift' =>  $gutschrift,
                         'mwst_befreit' =>  $mwst_befreit,
+                        'iban' =>  $_REQUEST['iban'],
+                        'bic' =>  $_REQUEST['bic'],
                         'kundennummer'  => $crm->get('account')->get('kundennummer')
                     ];
-                    $sql='update uebersetzer set steuernummer={steuernummer}, gutschrift={gutschrift}, mwst_befreit={mwst_befreit} 
+                    $sql='update uebersetzer set steuernummer={steuernummer}, iban={iban}, bic={bic}, gutschrift={gutschrift}, mwst_befreit={mwst_befreit} 
                     where kundennummer={kundennummer}';
                     $db->direct($sql,$hash);
                 }                                
