@@ -151,18 +151,18 @@ class Translator {
                 ) {
                     echo $crm->get('account')->get('login');
 
-                    $res = json_decode($this->db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$crm->get('account')->get('login'),'cms_password'=>$_REQUEST['odl_pw']],'s'),true);
+                    $res = json_decode($db->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$crm->get('account')->get('login'),'cms_password'=>$_REQUEST['odl_pw']],'s'),true);
                     if ($res['success']==true && ($_REQUEST['new_pw1']==$_REQUEST['new_pw2']) ){
-                        echo 'Kann geändert werden ;-)'.PHP_EOL;
-
+                        $hash=[
+                            'kundennummer'  => $crm->get('account')->get('kundennummer'),
+                            'login'         => $crm->get('account')->get('login'),
+                            'pawo'          => $_REQUEST['new_pw1']
+                        ];
+                        $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennumer={kundennummer}';
+                        $db->direct($sql,$hash);
                     } else {
                         echo 'Kann NICHT geändert werden :-('.PHP_EOL;
                     }
-                    exit();
-                    $hash=[
-                        'kundennummer'  => $crm->get('account')->get('kundennummer')
-                    ];
-
                 }                
         }
 
