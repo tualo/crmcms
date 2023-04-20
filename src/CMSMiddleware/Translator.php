@@ -139,7 +139,7 @@ class Translator {
                         )
                         {
                             foreach ($_REQUEST['lang'] as $la){
-                                $sql=' insert into uebersetzer_sprachen (kundennummer,kostenstelle,language) values ({kundennummer},0,$la)';
+                                $sql=' insert into uebersetzer_sprachen (kundennummer,kostenstelle,language) values ({kundennummer},0,'.$la.')';
                                 $db->direct($sql,$hash);
                             }
                         }
