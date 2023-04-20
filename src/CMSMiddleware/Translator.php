@@ -144,6 +144,18 @@ class Translator {
                             }
                         }
                 }
+                if (
+                    isset($_REQUEST['edit-tr-password']) &&
+                    isset($_REQUEST['tr-nr']) &&
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                ) {
+                    echo $crm->get('account')->get('login');
+                    exit();
+                    $hash=[
+                        'kundennummer'  => $crm->get('account')->get('kundennummer')
+                    ];
+
+                }                
         }
 
         if (
