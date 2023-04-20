@@ -12,7 +12,7 @@ class Translator {
         $db = self::db();
         $crm = CRM::getInstance();
 
-        $result['   ']=$db->direct('select distinct id,name from languages'); // don't store in session;
+        $result['translations_languages']=$db->direct('select distinct id,name from languages'); // don't store in session;
 
         if (
             $crm->get('account')->isLoggedIn() &&
