@@ -138,7 +138,7 @@ class Translator {
                         is_array($_REQUEST['lang'])
                         )
                         {
-                            foreach ($_REQUEST['lang'] as $la){
+                            foreach ($_REQUEST['lang'] as $la => $nix){
                                 $sql=' insert into uebersetzer_sprachen (kundennummer,kostenstelle,language) values ({kundennummer},0,'.$la.')';
                                 $db->direct($sql,$hash);
                             }
