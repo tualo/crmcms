@@ -158,10 +158,12 @@ class Translator {
                             'login'         => $crm->get('account')->get('login'),
                             'pawo'          => $_REQUEST['new_pw1']
                         ];
-                        $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennumer={kundennummer}';
+                        $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer}';
                         $db->direct($sql,$hash);
+                        $crm->set('message','Das Passwort wurde geändert!');
                     } else {
-                        echo 'Kann NICHT geändert werden :-('.PHP_EOL;
+                        $crm->set('message','Das Passwort konnte nicht geändert werden - überprüfen Sie Ihre Eingaben!');
+                        $crm->set('edit','password');
                     }
                 }                
         }
