@@ -41,7 +41,7 @@ class Account {
             ];
             if ($this->get('login_type')=='translator'){
                 $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer}';
-                $db->direct($sql,$hash);
+                $this->db->direct($sql,$hash);
             }
             return true;
         }
