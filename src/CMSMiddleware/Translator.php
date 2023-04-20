@@ -149,8 +149,6 @@ class Translator {
                     isset($_REQUEST['tr-nr']) &&
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
                 ) {
-                    echo $crm->get('account')->get('login');
-
                     $res = json_decode($db->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$crm->get('account')->get('login'),'cms_password'=>$_REQUEST['odl_pw']],'s'),true);
                     if ($res['success']==true && ($_REQUEST['new_pw1']==$_REQUEST['new_pw2']) ){
                         $hash=[
