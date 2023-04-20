@@ -150,6 +150,14 @@ class Translator {
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
                 ) {
                     echo $crm->get('account')->get('login');
+
+                    $res = json_decode($this->db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$crm->get('account')->get('login'),'cms_password'=>$_REQUEST['odl_pw']],'s'),true);
+                    if ($res['success']==true && ($_REQUEST['new_pw1']==$_REQUEST['new_pw2']) ){
+                        echo 'Kann geändert werden ;-)'.PHP_EOL;
+
+                    } else {
+                        echo 'Kann NICHT geändert werden :-('.PHP_EOL;
+                    }
                     exit();
                     $hash=[
                         'kundennummer'  => $crm->get('account')->get('kundennummer')
