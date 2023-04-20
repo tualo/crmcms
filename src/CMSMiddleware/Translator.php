@@ -147,9 +147,16 @@ class Translator {
                 if (
                     isset($_REQUEST['edit-tr-password']) &&
                     isset($_REQUEST['tr-nr']) &&
-                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer') && ($_REQUEST['new_pw1']==$_REQUEST['new_pw2'])
                 ) {
-                    $res = json_decode($db->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$crm->get('account')->get('login'),'cms_password'=>$_REQUEST['odl_pw']],'s'),true);
+                    if ($crm->get('account') -> setPassword($_REQUEST['old_pw'],$_REQUEST['new_pw1'])){
+                        $crm->set('message','Das Passwort wurde geändert!');
+                    } else {
+                        $crm->set('message','Das Passwort konnte nicht geändert werden - überprüfen Sie Ihre Eingaben!');
+                        $crm->set('edit','password');
+                    
+                    }
+                   /* $res = json_decode($db->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$crm->get('account')->get('login'),'cms_password'=>$_REQUEST['odl_pw']],'s'),true);
                     if ($res['success']==true && ($_REQUEST['new_pw1']==$_REQUEST['new_pw2']) ){
                         $hash=[
                             'kundennummer'  => $crm->get('account')->get('kundennummer'),
@@ -162,7 +169,7 @@ class Translator {
                     } else {
                         $crm->set('message','Das Passwort konnte nicht geändert werden - überprüfen Sie Ihre Eingaben!');
                         $crm->set('edit','password');
-                    }
+                    }*/
                 }                
         }
 
