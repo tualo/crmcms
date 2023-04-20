@@ -12,7 +12,7 @@ class Translator {
         $db = self::db();
         $crm = CRM::getInstance();
 
-        $result['translations_languages']=$db->direct('select distinct id,name from languages'); // don't store in session;
+        $result['   ']=$db->direct('select distinct id,name from languages'); // don't store in session;
 
         if (
             $crm->get('account')->isLoggedIn() &&
@@ -123,7 +123,27 @@ class Translator {
                     where kundennummer={kundennummer}';
                     $db->direct($sql,$hash);
                 }                                
-
+                if (
+                    isset($_REQUEST['edit-tr-language']) &&
+                    isset($_REQUEST['tr-nr']) &&
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                ) {
+                    echo '<pre>'.PHP_EOL;
+                    print_r($_REQUEST);
+                    echo '</pre>'.PHP_EOL;
+                    exit();
+                    $hash=[
+                        'steuernummer' =>  $_REQUEST['steuernummer'],
+                        'gutschrift' =>  $gutschrift,
+                        'mwst_befreit' =>  $mwst_befreit,
+                        'iban' =>  $_REQUEST['iban'],
+                        'bic' =>  $_REQUEST['bic'],
+                        'kundennummer'  => $crm->get('account')->get('kundennummer')
+                    ];
+                    $sql='update uebersetzer set steuernummer={steuernummer}, iban={iban}, bic={bic}, gutschrift={gutschrift}, mwst_befreit={mwst_befreit} 
+                    where kundennummer={kundennummer}';
+                    $db->direct($sql,$hash);
+                }
         }
 
         if (
