@@ -128,21 +128,21 @@ class Translator {
                     isset($_REQUEST['tr-nr']) &&
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
                 ) {
-                    echo '<pre>'.PHP_EOL;
-                    print_r($_REQUEST);
-                    echo '</pre>'.PHP_EOL;
-                    exit();
+                    $sql='delete from uebersetzer_sprachen where kundennummer={kundennummer}';
                     $hash=[
-                        'steuernummer' =>  $_REQUEST['steuernummer'],
-                        'gutschrift' =>  $gutschrift,
-                        'mwst_befreit' =>  $mwst_befreit,
-                        'iban' =>  $_REQUEST['iban'],
-                        'bic' =>  $_REQUEST['bic'],
                         'kundennummer'  => $crm->get('account')->get('kundennummer')
                     ];
-                    $sql='update uebersetzer set steuernummer={steuernummer}, iban={iban}, bic={bic}, gutschrift={gutschrift}, mwst_befreit={mwst_befreit} 
-                    where kundennummer={kundennummer}';
                     $db->direct($sql,$hash);
+                    if (
+                        isset($_REQUEST['lang']) && 
+                        is_array($_REQUEST['lang'])
+                        )
+                        {
+                            foreach ($_REQUEST['lang'] as $la){
+                                $sql=' insert into uebersetzer_sprachen (kundennummer,kostenstelle,language) values ({kundennummer},0,$la)';
+                                $db->direct($sql,$hash);
+                            }
+                        }
                 }
         }
 
