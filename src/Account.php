@@ -23,9 +23,12 @@ class Account {
 
     public function logout(){
         try{
+            $crm = CRM::getInstance();
             if (isset($_REQUEST['logout'])&&($_REQUEST['logout']==1)){
                 $this->_isLoggedin=false;
                 $this->_data=[];
+                $crm->set('edit',null);
+                $crm->set('type',null);
             }
         }catch(\Exception $e){
             
