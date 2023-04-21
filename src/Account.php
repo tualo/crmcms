@@ -31,8 +31,12 @@ class Account {
             
         }
     }
+
+
+
+    
     public function setPassword(string $old_pw ,string $new_pw):mixed{
-        $res = json_decode($db->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$this->get('login'),'cms_password'=>$old_pw],'s'),true);
+        $res = json_decode($this->db()->singleValue('select test_crm_login({cms_login},{cms_password}) s ',['cms_login'=>$this->get('login'),'cms_password'=>$old_pw],'s'),true);
         if ($res['success']==true ){
             $hash=[
                 'kundennummer'  => $this->get('kundennummer'),
@@ -41,7 +45,7 @@ class Account {
             ];
             if ($this->get('login_type')=='translator'){
                 $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer}';
-                $this->db->direct($sql,$hash);
+                $this->db()->direct($sql,$hash);
             }
             return true;
         }
