@@ -4,6 +4,7 @@ use Tualo\Office\Basic\TualoApplication as App;
 use Tualo\Office\CrmCms\CRM;
 use Tualo\Office\CrmCms\Account;
 use Michelf\MarkdownExtra;
+use Tualo\Office\DS\DSTable;
 
 class Customer {
     public static function db() { return App::get('session')->getDB(); }
