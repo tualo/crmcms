@@ -43,22 +43,24 @@ class Account {
         if ($res['success']==true ){
             $hash=[
                 'kundennummer'  => $this->get('kundennummer'),
+                'kostenstelle'  => $this->get('kostenstelle'),
                 'login'         => $this->get('login'),
                 'pawo'          => $new_pw
             ];
             if ($this->get('login_type')=='translator'){
-                $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer}';
+                $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer} and kostenstelle={kostenstelle}';
                 $this->db()->direct($sql,$hash);
             }
             if ($this->get('login_type')=='customer'){
-                $sql='update adressen_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer}';
+                $sql='update adressen_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer} and kostenstelle={kostenstelle}';
                 $this->db()->direct($sql,$hash);
             }
             return true;
         }
         return false;
     }
- 
+
+  
     public function login(
         string $username = null,
         string $password = null
