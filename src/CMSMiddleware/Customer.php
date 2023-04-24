@@ -11,6 +11,9 @@ class Customer {
         @session_start();
         $db = self::db();
         $crm = CRM::getInstance();
+
+        $result['translations_languages']=$db->direct('select distinct id,name from languages');
+
         if (
             $crm->get('account')->isLoggedIn() &&
             $crm->get('account')->get('login_type')=='customer'
@@ -77,7 +80,7 @@ class Customer {
                     $crm -> set('errorMessage',$table -> errorMessage());
                 }
     
-}
+            }
 
             if (isset($_REQUEST['edit-cu-password'])){ 
                 if(
@@ -94,10 +97,6 @@ class Customer {
                     $crm->set('edit','password');
                 }    
             }            
-        
+        }
     }
-
-
-}
-
 }
