@@ -50,6 +50,10 @@ class Account {
                 $sql='update uebersetzer_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer}';
                 $this->db()->direct($sql,$hash);
             }
+            if ($this->get('login_type')=='customer'){
+                $sql='update adressen_logins set password = md5({pawo}), passwordtype="md5", updatedate=now() where login={login} and kundennummer={kundennummer}';
+                $this->db()->direct($sql,$hash);
+            }
             return true;
         }
         return false;
