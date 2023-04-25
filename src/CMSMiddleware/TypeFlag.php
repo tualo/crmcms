@@ -14,6 +14,7 @@ class TypeFlag {
             $crm->set('edit',$_REQUEST['edit']);
         }else{
             $crm->set('edit',NULL);
+            $crm->set('message',NULL);
         }
     }
 
