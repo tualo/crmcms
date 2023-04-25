@@ -4,6 +4,7 @@ use Tualo\Office\Basic\TualoApplication as App;
 use Tualo\Office\CrmCms\CRM;
 use Tualo\Office\CrmCms\Account;
 use Michelf\MarkdownExtra;
+use Tualo\Office\DS\DSTable;
 
 class Translator {
     public static function db() { return App::get('session')->getDB(); }
@@ -112,8 +113,17 @@ class Translator {
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')&& 
                     $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
-                    $gutschrift=(isset($_REQUEST['gutschrift']) ? 1:0);
-                    $mwst_befreit=(isset($_REQUEST['mwst_befreit']) ? 1:0);
+                    $_REQUEST['gutschrift']=(isset($_REQUEST['gutschrift']) ? 1:0);
+                    $_REQUEST['mwst_befreit']=(isset($_REQUEST['mwst_befreit']) ? 1:0);
+                    $_REQUEST['__id']=$crm->get('account')->get('kostenstelle').'|'.$crm->get('account')->get('kundennummer');
+                    $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
+                    $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                    $table=new DSTable($db,'uebersetzer');
+                    if ($table -> update($_REQUEST) === FALSE){
+                        $crm -> set('error',TRUE);
+                        $crm -> set('errorMessage',$table -> errorMessage());
+                    }
+/*
                     $hash=[
                         'steuernummer' =>  $_REQUEST['steuernummer'],
                         'gutschrift' =>  $gutschrift,
@@ -124,7 +134,7 @@ class Translator {
                     ];
                     $sql='update uebersetzer set steuernummer={steuernummer}, iban={iban}, bic={bic}, gutschrift={gutschrift}, mwst_befreit={mwst_befreit} 
                     where kundennummer={kundennummer}';
-                    $db->direct($sql,$hash);
+                    $db->direct($sql,$hash);*/
                 }                                
                 if (
                     isset($_REQUEST['edit-tr-language']) &&
