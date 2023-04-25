@@ -187,5 +187,8 @@ class Translator {
             ));
         }
     }
+    if (isset($_REQUEST['type'])){
+        $crm->set('type',$_REQUEST['type']);
+    }
 
 }
