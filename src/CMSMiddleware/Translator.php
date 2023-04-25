@@ -73,6 +73,15 @@ class Translator {
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer') && 
                     $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
+                    $_REQUEST['__id']=$crm->get('account')->get('kostenstelle').'|'.$crm->get('account')->get('kundennummer');
+                    $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
+                    $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                    $table=new DSTable($db,'uebersetzer');
+                    if ($table -> update($_REQUEST) === FALSE){
+                        $crm -> set('error',TRUE);
+                        $crm -> set('errorMessage',$table -> errorMessage());
+                    }
+                    /*
                     $hash=[
                         'firma' =>  $_REQUEST['firma'],
                         'zusatz' =>  $_REQUEST['zusatz'],
@@ -87,7 +96,7 @@ class Translator {
                     ];
                     $sql='update uebersetzer set firma={firma}, zusatz={zusatz}, vorname={vorname}, nachname={nachname}, strasse={strasse}, haus_nr={haus_nr}, plz={plz}, ort={ort}, ortsteil={ortsteil}
                     where kundennummer={kundennummer}';
-                    $db->direct($sql,$hash);
+                    $db->direct($sql,$hash);*/
                 }
                 if (
                     isset($_REQUEST['edit-tr-communication']) &&
@@ -95,7 +104,16 @@ class Translator {
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')&& 
                     $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
-                    $hash=[
+
+                    $_REQUEST['__id']=$crm->get('account')->get('kostenstelle').'|'.$crm->get('account')->get('kundennummer');
+                    $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
+                    $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                    $table=new DSTable($db,'uebersetzer');
+                    if ($table -> update($_REQUEST) === FALSE){
+                        $crm -> set('error',TRUE);
+                        $crm -> set('errorMessage',$table -> errorMessage());
+                    }
+                    /*$hash=[
                         'telefon' =>  $_REQUEST['telefon'],
                         'telefax' =>  $_REQUEST['telefax'],
                         'telefon2' =>  $_REQUEST['telefon2'],
@@ -105,7 +123,7 @@ class Translator {
                     ];
                     $sql='update uebersetzer set telefon={telefon}, telefax={telefax}, telefon2={telefon2}, email={email}, website={website}
                     where kundennummer={kundennummer}';
-                    $db->direct($sql,$hash);
+                    $db->direct($sql,$hash);*/
                 }
                 if (
                     isset($_REQUEST['edit-tr-accounting']) &&
