@@ -69,7 +69,8 @@ class Translator {
                 if (
                     isset($_REQUEST['edit-tr-address']) &&
                     isset($_REQUEST['tr-nr']) &&
-                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer') && 
+                    $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
                     $hash=[
                         'firma' =>  $_REQUEST['firma'],
@@ -90,7 +91,8 @@ class Translator {
                 if (
                     isset($_REQUEST['edit-tr-communication']) &&
                     isset($_REQUEST['tr-nr']) &&
-                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')&& 
+                    $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
                     $hash=[
                         'telefon' =>  $_REQUEST['telefon'],
@@ -107,7 +109,8 @@ class Translator {
                 if (
                     isset($_REQUEST['edit-tr-accounting']) &&
                     isset($_REQUEST['tr-nr']) &&
-                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')&& 
+                    $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
                     $gutschrift=(isset($_REQUEST['gutschrift']) ? 1:0);
                     $mwst_befreit=(isset($_REQUEST['mwst_befreit']) ? 1:0);
@@ -126,7 +129,8 @@ class Translator {
                 if (
                     isset($_REQUEST['edit-tr-language']) &&
                     isset($_REQUEST['tr-nr']) &&
-                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')&& 
+                    $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
                     $sql='delete from uebersetzer_sprachen where kundennummer={kundennummer}';
                     $hash=[
@@ -148,6 +152,7 @@ class Translator {
                     if(
                         isset($_REQUEST['tr-nr']) &&
                         $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer') && 
+                        $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle') && 
                         ($_REQUEST['new_pw1']==$_REQUEST['new_pw2'])
                     ){
                         if ($crm->get('account')->setPassword($_REQUEST['old_pw'],$_REQUEST['new_pw1'])){
