@@ -19,8 +19,15 @@ class Customer {
             $crm->get('account')->isLoggedIn() &&
             $crm->get('account')->get('login_type')=='customer'
         ) {
-            $crm->get('account')->set('open_translations',$db->direct(
-                '
+            $sql='
+                select * from view_open_translations where kostenstelle={kostenstelle} and kundennummer={kundennummer} 
+            ';
+            $hash=[
+                'kundennummer' => $crm->get('account')->get('kundennummer'),
+                'kostenstelle' => $crm->get('account')->get('kostenstelle')
+            ];
+            $crm->get('account')->set('open_translations',$db->direct($sql,$hash));
+               /* '
                 select
                     translations.*,
                     translations_kunden.created as since
@@ -33,7 +40,7 @@ class Customer {
                 = (select kundennummer,kostenstelle from adressen_logins where login = {login} )
                 ',
                 ['login'=>$crm->get('account')->get('login')]
-            ));
+            ));*/
 
             if (
                 isset($_REQUEST['edit-cu-address']) &&
@@ -44,6 +51,7 @@ class Customer {
                 $table=new DSTable($db,'adressen');
                 $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
                 $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                $_REQUEST['__id']=$crm->get('account')->get('kostenstelle').'|'.$crm->get('account')->get('kundennummer');
                 if ($table -> update($_REQUEST) === FALSE){
                     $crm -> set('error',TRUE);
                     $crm -> set('errorMessage',$table -> errorMessage());
@@ -60,6 +68,7 @@ class Customer {
                 $table=new DSTable($db,'adressen');
                 $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
                 $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                $_REQUEST['__id']=$crm->get('account')->get('kostenstelle').'|'.$crm->get('account')->get('kundennummer');
                 if ($table -> update($_REQUEST) === FALSE){
                     $crm -> set('error',TRUE);
                     $crm -> set('errorMessage',$table -> errorMessage());
@@ -76,6 +85,7 @@ class Customer {
                 $table=new DSTable($db,'adressen');
                 $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
                 $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                $_REQUEST['__id']=$crm->get('account')->get('kostenstelle').'|'.$crm->get('account')->get('kundennummer');
                 if ($table -> update($_REQUEST) === FALSE){
                     $crm -> set('error',TRUE);
                     $crm -> set('errorMessage',$table -> errorMessage());
