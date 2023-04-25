@@ -194,7 +194,7 @@ class Translator {
             
         }
 
-        if (
+        /*if (
             $crm->get('account')->isLoggedIn() &&
             $crm->get('account')->get('login_type')=='customer'
         ) {
@@ -213,6 +213,6 @@ class Translator {
                 ',
                 ['login'=>$crm->get('account')->get('login')]
             ));
-        }
+        }*/
     }
 }
