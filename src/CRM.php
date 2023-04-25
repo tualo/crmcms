@@ -52,5 +52,4 @@ class CRM {
         if (!isset($this->_data[$key])) return null;
         return $this->_data[$key];
     }
-
 }
