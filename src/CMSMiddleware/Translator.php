@@ -186,9 +186,8 @@ class Translator {
                 ['login'=>$crm->get('account')->get('login')]
             ));
         }
+        if ( isset($_REQUEST['type']) ){
+            $crm->set('type',$_REQUEST['type']);
+        }
     }
-    if (isset($_REQUEST['type'])){
-        $crm->set('type',$_REQUEST['type']);
-    }
-
 }
