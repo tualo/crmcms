@@ -16,6 +16,7 @@ class TypeFlag {
             $crm->set('edit',NULL);
             $crm->set('message',NULL);
         }
+        $crm->set('message',NULL);
     }
 
 }
