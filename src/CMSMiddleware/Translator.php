@@ -165,7 +165,7 @@ class Translator {
                         {
                             foreach ($_REQUEST['lang'] as $la => $nix){
                                 $_REQUEST['language']=$la;
-                                if ($table -> delete($_REQUEST) === FALSE){
+                                if ($table -> insert($_REQUEST) === FALSE){
                                     $crm -> set('error',TRUE);
                                     $crm -> set('errorMessage',$table -> errorMessage());
                                 }                                
