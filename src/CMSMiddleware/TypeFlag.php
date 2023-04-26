@@ -10,13 +10,7 @@ class TypeFlag {
         @session_start();
         $crm = CRM::getInstance();
         if (isset($_REQUEST['type'])&&is_string($_REQUEST['type'])) $crm->set('type',$_REQUEST['type']);
-        if (isset($_REQUEST['edit'])&&is_string($_REQUEST['edit'])) {
-            $crm->set('edit',$_REQUEST['edit']);
-        }else{
-            $crm->set('edit',NULL);
-            $crm->set('message',NULL);
-        }
-        $crm->set('message',NULL);
+        if (isset($_REQUEST['edit'])&&is_string($_REQUEST['edit'])) $crm->set('edit',$_REQUEST['edit']);
     }
 
 }
