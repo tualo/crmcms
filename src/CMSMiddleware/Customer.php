@@ -27,20 +27,7 @@ class Customer {
                 'kostenstelle' => $crm->get('account')->get('kostenstelle')
             ];
             $crm->get('account')->set('open_translations',$db->direct($sql,$hash));
-               /* '
-                select
-                    translations.*,
-                    translations_kunden.created as since
-                from
-                    translations
-                    join
-                    translations_kunden
-                    on translations_kunden.translation = translations.id
-                where (translations_kunden.kundennummer,translations_kunden.kostenstelle) 
-                = (select kundennummer,kostenstelle from adressen_logins where login = {login} )
-                ',
-                ['login'=>$crm->get('account')->get('login')]
-            ));*/
+
 
             if (
                 isset($_REQUEST['edit-cu-address']) &&
