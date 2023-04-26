@@ -81,22 +81,7 @@ class Translator {
                         $crm -> set('error',TRUE);
                         $crm -> set('errorMessage',$table -> errorMessage());
                     }
-                    /*
-                    $hash=[
-                        'firma' =>  $_REQUEST['firma'],
-                        'zusatz' =>  $_REQUEST['zusatz'],
-                        'vorname' =>  $_REQUEST['vorname'],
-                        'nachname' =>  $_REQUEST['nachname'],
-                        'strasse' =>  $_REQUEST['strasse'],
-                        'haus_nr' =>  $_REQUEST['haus_nr'],
-                        'plz' =>  $_REQUEST['plz'],
-                        'ort' =>  $_REQUEST['ort'],
-                        'ortsteil' =>  $_REQUEST['ortsteil'],
-                        'kundennummer'  => $crm->get('account')->get('kundennummer')
-                    ];
-                    $sql='update uebersetzer set firma={firma}, zusatz={zusatz}, vorname={vorname}, nachname={nachname}, strasse={strasse}, haus_nr={haus_nr}, plz={plz}, ort={ort}, ortsteil={ortsteil}
-                    where kundennummer={kundennummer}';
-                    $db->direct($sql,$hash);*/
+
                 }
                 if (
                     isset($_REQUEST['edit-tr-communication']) &&
@@ -160,19 +145,32 @@ class Translator {
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')&& 
                     $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
+                    $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
+                    $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                    $table=new DSTable($db,'uebersetzer_sprachen');
+                    if ($table -> delete($_REQUEST) === FALSE){
+                        $crm -> set('error',TRUE);
+                        $crm -> set('errorMessage',$table -> errorMessage());
+                    }
+                    /*
                     $sql='delete from uebersetzer_sprachen where kundennummer={kundennummer}';
                     $hash=[
                         'kundennummer'  => $crm->get('account')->get('kundennummer')
                     ];
-                    $db->direct($sql,$hash);
+                    $db->direct($sql,$hash);*/
                     if (
                         isset($_REQUEST['lang']) && 
                         is_array($_REQUEST['lang'])
                         )
                         {
                             foreach ($_REQUEST['lang'] as $la => $nix){
-                                $sql=' insert into uebersetzer_sprachen (kundennummer,kostenstelle,language) values ({kundennummer},0,'.$la.')';
-                                $db->direct($sql,$hash);
+                                $_REQUEST['language']=$la;
+                                if ($table -> delete($_REQUEST) === FALSE){
+                                    $crm -> set('error',TRUE);
+                                    $crm -> set('errorMessage',$table -> errorMessage());
+                                }                                
+                                /* $sql=' insert into uebersetzer_sprachen (kundennummer,kostenstelle,language) values ({kundennummer},0,'.$la.')';
+                                $db->direct($sql,$hash);*/
                             }
                         }
                 }
@@ -193,26 +191,5 @@ class Translator {
                 }            
             
         }
-
-        /*if (
-            $crm->get('account')->isLoggedIn() &&
-            $crm->get('account')->get('login_type')=='customer'
-        ) {
-            $crm->get('account')->set('open_translations',$db->direct(
-                '
-                select
-                    translations.*,
-                    translations_kunden.created as since
-                from
-                    translations
-                    join
-                    translations_kunden
-                    on translations_kunden.translation = translations.id
-                where (translations_kunden.kundennummer,translations_kunden.kostenstelle) 
-                = (select kundennummer,kostenstelle from adressen_logins where login = {login} )
-                ',
-                ['login'=>$crm->get('account')->get('login')]
-            ));
-        }*/
     }
 }
