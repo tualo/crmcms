@@ -98,17 +98,6 @@ class Translator {
                         $crm -> set('error',TRUE);
                         $crm -> set('errorMessage',$table -> errorMessage());
                     }
-                    /*$hash=[
-                        'telefon' =>  $_REQUEST['telefon'],
-                        'telefax' =>  $_REQUEST['telefax'],
-                        'telefon2' =>  $_REQUEST['telefon2'],
-                        'email' =>  $_REQUEST['email'],
-                        'website' =>  $_REQUEST['website'],
-                        'kundennummer'  => $crm->get('account')->get('kundennummer')
-                    ];
-                    $sql='update uebersetzer set telefon={telefon}, telefax={telefax}, telefon2={telefon2}, email={email}, website={website}
-                    where kundennummer={kundennummer}';
-                    $db->direct($sql,$hash);*/
                 }
                 if (
                     isset($_REQUEST['edit-tr-accounting']) &&
@@ -126,18 +115,6 @@ class Translator {
                         $crm -> set('error',TRUE);
                         $crm -> set('errorMessage',$table -> errorMessage());
                     }
-/*
-                    $hash=[
-                        'steuernummer' =>  $_REQUEST['steuernummer'],
-                        'gutschrift' =>  $gutschrift,
-                        'mwst_befreit' =>  $mwst_befreit,
-                        'iban' =>  $_REQUEST['iban'],
-                        'bic' =>  $_REQUEST['bic'],
-                        'kundennummer'  => $crm->get('account')->get('kundennummer')
-                    ];
-                    $sql='update uebersetzer set steuernummer={steuernummer}, iban={iban}, bic={bic}, gutschrift={gutschrift}, mwst_befreit={mwst_befreit} 
-                    where kundennummer={kundennummer}';
-                    $db->direct($sql,$hash);*/
                 }                                
                 if (
                     isset($_REQUEST['edit-tr-language']) &&
@@ -152,12 +129,6 @@ class Translator {
                         $crm -> set('error',TRUE);
                         $crm -> set('errorMessage',$table -> errorMessage());
                     }
-                    /*
-                    $sql='delete from uebersetzer_sprachen where kundennummer={kundennummer}';
-                    $hash=[
-                        'kundennummer'  => $crm->get('account')->get('kundennummer')
-                    ];
-                    $db->direct($sql,$hash);*/
                     if (
                         isset($_REQUEST['lang']) && 
                         is_array($_REQUEST['lang'])
@@ -169,8 +140,7 @@ class Translator {
                                     $crm -> set('error',TRUE);
                                     $crm -> set('errorMessage',$table -> errorMessage());
                                 }                                
-                                /* $sql=' insert into uebersetzer_sprachen (kundennummer,kostenstelle,language) values ({kundennummer},0,'.$la.')';
-                                $db->direct($sql,$hash);*/
+
                             }
                         }
                 }
