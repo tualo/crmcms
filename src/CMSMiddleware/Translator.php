@@ -137,15 +137,18 @@ class Translator {
 
                 if(
                     isset($_REQUEST['edit-tr-language']) &&
-                    isset($_REQUEST['source_language_name']) &&
-                    isset($_REQUEST['destination_language_name']) &&
+                    isset($_REQUEST['source_language']) &&
+                    isset($_REQUEST['destination_language']) &&
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer') && 
                     $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle') &&
-                    $hash['source_language']=array_search($_REQUEST['source_language_name'],$result['translations_languages']) && 
-                    $hash['destination_language']=array_search($_REQUEST['destination_language_name'],$result['translations_languages']) 
+                    array_key_exists($_REQUEST['source_language'],$result['translations_languages']) && 
+                    array_key_exists($_REQUEST['destination_language'],$result['translations_languages']) 
                 ){
                     $hash['kundennummer']=$crm->get('account')->get('kundennummer');
                     $hash['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                    $hash['source_language']=$_REQUEST['source_language'];
+                    $hash['destination_language']=$_REQUEST['destination_language'];
+
                     $table=new DSTable($db,'uebersetzer_sprachen');
                     if ($table -> insert($hash) === FALSE){
                         $crm -> set('error',TRUE);
