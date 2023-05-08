@@ -115,7 +115,20 @@ class Translator {
                         $crm -> set('error',TRUE);
                         $crm -> set('errorMessage',$table -> errorMessage());
                     }
-                }                                
+                }         
+                if(
+                isset($_REQUEST['type']) &&
+                isset($_REQUEST['edit']) &&
+                isset($_REQUEST['did']) && 
+                isset($_REQUEST['type'])=='profile' &&
+                isset($_REQUEST['edit']) && 'language'
+                ){
+                    $hash=['did'  => $_REQUEST['did']];
+                    $sql='select * from  uebersetzer_sprachen where md5(concat(`kundennummer`,`kostenstelle`,`destination_language`,`destination_language`)) = {did}';
+                    $langARR=$db->direct($sql,$hash);
+                    print_r($langARR);
+                }
+/*                
                 if (
                     isset($_REQUEST['edit-tr-language']) &&
                     isset($_REQUEST['tr-nr']) &&
@@ -144,6 +157,7 @@ class Translator {
                             }
                         }
                 }
+*/                
                 if (isset($_REQUEST['edit-tr-password'])){ 
                     if(
                         isset($_REQUEST['tr-nr']) &&
