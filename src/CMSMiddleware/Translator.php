@@ -117,11 +117,11 @@ class Translator {
                     }
                 }         
                 if(
-                isset($_REQUEST['type']) &&
-                isset($_REQUEST['edit']) &&
-                isset($_REQUEST['did']) && 
-                isset($_REQUEST['type'])=='profile' &&
-                isset($_REQUEST['edit']) && 'language'
+                    isset($_REQUEST['type']) &&
+                    isset($_REQUEST['edit']) &&
+                    isset($_REQUEST['did']) && 
+                    isset($_REQUEST['type'])=='profile' &&
+                    isset($_REQUEST['edit']) && 'language'
                 ){
                     $hash=['did'  => $_REQUEST['did']];
                     $sql='select * from  uebersetzer_sprachen where md5(concat(`kundennummer`,`kostenstelle`,`destination_language`,`destination_language`)) = {did}';
@@ -134,6 +134,26 @@ class Translator {
                         $db->direct($sql,$hash);
                     }
                 }
+
+                if(
+                    isset($_REQUEST['edit-tr-language']) &&
+                    isset($_REQUEST['source_language_name']) &&
+                    isset($_REQUEST['destination_language_name']) &&
+                    $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer') && 
+                    $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle') &&
+                    $hash['source_language']=array_search($_REQUEST['source_language_name'],$result['translations_languages']) && 
+                    $hash['destination_language']=array_search($_REQUEST['destination_language_name'],$result['translations_languages']) 
+                ){
+                    $hash['kundennummer']=$crm->get('account')->get('kundennummer');
+                    $hash['kostenstelle']=$crm->get('account')->get('kostenstelle');
+                    $table=new DSTable($db,'uebersetzer_sprachen');
+                    if ($table -> insert($hash) === FALSE){
+                        $crm -> set('error',TRUE);
+                        $crm -> set('errorMessage',$table -> errorMessage());
+                    }
+
+                }
+
 /*                
                 if (
                     isset($_REQUEST['edit-tr-language']) &&
