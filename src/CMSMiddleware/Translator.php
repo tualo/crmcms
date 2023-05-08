@@ -135,14 +135,15 @@ class Translator {
                     }
                 }
 
+                $langs=array_column($result['translations_languages'],'name','id');
                 if(
                     isset($_REQUEST['edit-tr-language']) &&
                     isset($_REQUEST['source_language']) &&
                     isset($_REQUEST['destination_language']) &&
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer') && 
-                    $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle') &&
-                    array_key_exists($_REQUEST['source_language'],$result['translations_languages']) && 
-                    array_key_exists($_REQUEST['destination_language'],$result['translations_languages']) 
+                    $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')   &&
+                    array_key_exists($_REQUEST['destination_language'],$langs) && 
+                    array_key_exists($_REQUEST['source_language'],$langs)
                 ){
                     $hash['kundennummer']=$crm->get('account')->get('kundennummer');
                     $hash['kostenstelle']=$crm->get('account')->get('kostenstelle');
