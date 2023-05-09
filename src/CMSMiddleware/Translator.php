@@ -121,7 +121,7 @@ class Translator {
                     isset($_REQUEST['edit']) &&
                     isset($_REQUEST['did']) && 
                     isset($_REQUEST['type'])=='profile' &&
-                    isset($_REQUEST['edit']) && 'language'
+                    isset($_REQUEST['edit']) == 'language'
                 ){
                     $hash=['did'  => $_REQUEST['did']];
                     $sql='select * from  uebersetzer_sprachen where md5(concat(`kundennummer`,`kostenstelle`,`destination_language`,`destination_language`)) = {did}';
