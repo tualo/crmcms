@@ -178,7 +178,7 @@ class Translator {
                         )
                         {
                             foreach ($_REQUEST['attributes'] as $la => $nix){
-                                $_REQUEST['attributes']=$la;
+                                $_REQUEST['attributes_id']=$la;
                                 if ($table -> insert($_REQUEST) === FALSE){
                                     $crm -> set('error',TRUE);
                                     $crm -> set('errorMessage',$table -> errorMessage());
