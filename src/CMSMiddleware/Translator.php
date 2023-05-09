@@ -158,27 +158,27 @@ class Translator {
 
                 }
 
-/*                
+                
                 if (
-                    isset($_REQUEST['edit-tr-language']) &&
+                    isset($_REQUEST['edit-tr-attributes']) &&
                     isset($_REQUEST['tr-nr']) &&
                     $_REQUEST['tr-nr'] == $crm->get('account')->get('kundennummer')&& 
                     $_REQUEST['tr-kst'] == $crm->get('account')->get('kostenstelle')
                 ) {
                     $_REQUEST['kundennummer']=$crm->get('account')->get('kundennummer');
                     $_REQUEST['kostenstelle']=$crm->get('account')->get('kostenstelle');
-                    $table=new DSTable($db,'uebersetzer_sprachen');
+                    $table=new DSTable($db,'uebersetzer_attributes');
                     if ($table -> delete($_REQUEST) === FALSE){
                         $crm -> set('error',TRUE);
                         $crm -> set('errorMessage',$table -> errorMessage());
                     }
                     if (
-                        isset($_REQUEST['lang']) && 
-                        is_array($_REQUEST['lang'])
+                        isset($_REQUEST['attributes']) && 
+                        is_array($_REQUEST['attributes'])
                         )
                         {
-                            foreach ($_REQUEST['lang'] as $la => $nix){
-                                $_REQUEST['language']=$la;
+                            foreach ($_REQUEST['attributes'] as $la => $nix){
+                                $_REQUEST['attributes']=$la;
                                 if ($table -> insert($_REQUEST) === FALSE){
                                     $crm -> set('error',TRUE);
                                     $crm -> set('errorMessage',$table -> errorMessage());
@@ -187,7 +187,7 @@ class Translator {
                             }
                         }
                 }
-*/                
+              
                 if (isset($_REQUEST['edit-tr-password'])){ 
                     if(
                         isset($_REQUEST['tr-nr']) &&
