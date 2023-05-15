@@ -124,13 +124,13 @@ class Translator {
                     isset($_REQUEST['edit']) == 'language'
                 ){
                     $hash=['did'  => $_REQUEST['did']];
-                    $sql='select * from  uebersetzer_sprachen where md5(concat(`kundennummer`,`kostenstelle`,`destination_language`,`destination_language`)) = {did}';
+                    $sql='select * from  uebersetzer_sprachen where md5(concat(`kundennummer`,`kostenstelle`,`source_language`,`destination_language`)) = {did}';
                     $langARR=$db->direct($sql,$hash);
                     if (
                         $langARR[0]['kundennummer']==$crm->get('account')->get('kundennummer') && 
                         $langARR[0]['kostenstelle']==$crm->get('account')->get('kostenstelle')  
                     ){
-                        $sql='delete from  uebersetzer_sprachen where md5(concat(`kundennummer`,`kostenstelle`,`destination_language`,`destination_language`)) = {did}';
+                        $sql='delete from  uebersetzer_sprachen where md5(concat(`kundennummer`,`kostenstelle`,`source_language`,`destination_language`)) = {did}';
                         $db->direct($sql,$hash);
                     }
                 }
