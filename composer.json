@@ -19,8 +19,8 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "tualo/ds": "^1.0.1",
-    "tualo/pug": "^1.0.2"
+    "tualo/ds": "^1.0",
+    "tualo/pug": "^1.0"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
